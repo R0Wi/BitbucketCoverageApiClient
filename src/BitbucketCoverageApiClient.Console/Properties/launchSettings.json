@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BitbucketCoverageApiClient.Commandline": {
+      "commandName": "Project",
+      "commandLineArgs": "-f \"coverage.cobertura.xml\" -s \"http://bitbucket-server.com/bitbucket\" -u \"user\" -p \"pw\" -c \"87bf408995d81f061c5f7ba8c5165a51259f1f97\" -t \"Cobertura\""
+    }
+  }
+}

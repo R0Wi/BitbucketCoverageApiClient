@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitbucketCoverageApiClient", "src\BitbucketCoverageApiClient\BitbucketCoverageApiClient.csproj", "{E0C230F0-72A8-4680-B722-A87E58FC15D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitbucketCoverageApiClient.Console", "src\BitbucketCoverageApiClient.Console\BitbucketCoverageApiClient.Console.csproj", "{2C6D27EF-D05D-4C3F-9FF0-312B819F3EAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0C230F0-72A8-4680-B722-A87E58FC15D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0C230F0-72A8-4680-B722-A87E58FC15D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0C230F0-72A8-4680-B722-A87E58FC15D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0C230F0-72A8-4680-B722-A87E58FC15D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6D27EF-D05D-4C3F-9FF0-312B819F3EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6D27EF-D05D-4C3F-9FF0-312B819F3EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6D27EF-D05D-4C3F-9FF0-312B819F3EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6D27EF-D05D-4C3F-9FF0-312B819F3EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4687861-E3D4-4173-8487-2229C9339AF4}
+	EndGlobalSection
+EndGlobal
