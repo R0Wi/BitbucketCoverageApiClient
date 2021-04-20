@@ -22,5 +22,19 @@ namespace BitbucketCoverageApiClient
         /// <exception cref="System.UriFormatException"></exception>
         /// <exception cref="System.InvalidOperationException"></exception>
         List<FileCoverageInfo> ReadAndUpload(string coverageFilePath, CoverageFileFormat format, string commitHash);
+
+        /// <summary>
+        ///     Reads the coverage file and uploads the results to Bitbucket.
+        /// </summary>
+        /// <param name="files">The coverage files</param>
+        /// <param name="commitHash">Git commit hash to link the coverage to</param>
+        /// <returns>Multipe API results from Bitbucket. One per coverage file</returns>
+        /// <exception cref="RequestException">Thrown if request to Bitbucket server failed</exception>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.Security.SecurityException"></exception>
+        /// <exception cref="System.IO.FileNotFoundException"></exception>
+        /// <exception cref="System.UriFormatException"></exception>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        List<List<FileCoverageInfo>> ReadAndUpload(IEnumerable<CoverageFile> files, string commitHash);
     }
 }

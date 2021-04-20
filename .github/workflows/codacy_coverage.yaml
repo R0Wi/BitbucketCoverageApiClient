@@ -1,0 +1,24 @@
+name: Codacy coverage
+on:
+  push:
+    #branches:
+    #  - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Run tests and upload to Codacy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Run tests
+        run: scripts/test.sh
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_TOKEN }}
+          coverage-reports: tests/BitbucketCoverageApiClient.Test/coverage.cobertura.xml,tests/BitbucketCoverageApiClient.Commandline.Test/coverage.cobertura.xml

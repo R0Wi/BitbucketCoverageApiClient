@@ -1,11 +1,12 @@
-﻿using CommandLine;
+﻿using System.Collections.Generic;
+using CommandLine;
 
 namespace BitbucketCoverageApiClient.Console
 {
     public class CommandLineParameter
     {
-        [Option('f', "coverageFile", Required = true, HelpText = "Path to coverage file")]
-        public string CoverageFilePath { get; set; }
+        [Option('f', "coverageFile", Required = true, HelpText = "Path to coverage file. Can be defined multiple times")]
+        public IEnumerable<string> CoverageFiles { get; set; }
 
         [Option('t', "format", Required = true, HelpText = "The format of the coverage file to be parsed")]
         public CoverageFileFormat CoverageFileFormat { get; set; }

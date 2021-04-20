@@ -1,56 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BitbucketCoverageApiClient.Bitbucket;
-using BitbucketCoverageApiClient.Parser;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BitbucketCoverageApiClient
 {
     /// <inheritdoc />
     public class CoverageApiClient : ICoverageApiClient
     {
-        private readonly Client _client;
-        private readonly ParserFactory _parserFactory = new ParserFactory();
+        private readonly IClient _client;
+        private readonly ICoverageFileReader _coverageFileReader;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<CoverageApiClient> _logger;
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        public CoverageApiClient(string bitbucketBaseUrl, string bitbucketUsername, string bitbucketPassword)
+        public CoverageApiClient(string bitbucketBaseUrl, string bitbucketUsername, string bitbucketPassword, ILoggerFactory loggerFactory = null) : this (new Client(bitbucketBaseUrl, bitbucketUsername, bitbucketPassword), new CoverageFileReader(), loggerFactory)
         {
-            _client = new Client(bitbucketBaseUrl, bitbucketUsername, bitbucketPassword);
+            
+        }
+
+        /// <summary>
+        ///     Constructor for testing only
+        /// </summary>
+        internal CoverageApiClient(IClient client, ICoverageFileReader coverageFileReader, ILoggerFactory loggerFactory = null)
+        {
+            _client = client;
+            _coverageFileReader = coverageFileReader;
+            _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
+            _logger = _loggerFactory.CreateLogger<CoverageApiClient>();
         }
 
         /// <inheritdoc />
-        public List<FileCoverageInfo> ReadAndUpload(string coverageFilePath, CoverageFileFormat format,
-            string commitHash)
+        public List<FileCoverageInfo> ReadAndUpload(string coverageFilePath, CoverageFileFormat format, string commitHash) => ReadAndUploadSingleFile(new CoverageFile 
         {
-            var parser = _parserFactory.CreateParser(format);
-            var result = parser.Parse(coverageFilePath);
-            var bitbucketModel = new Files
-            {
-                FilesList = result.Select(res => new FileCoverageInfo
-                {
-                    Path = GetPath(res),
-                    Coverage = GetCoverage(res)
-                }).ToList()
-            };
-            return _client.Upload(commitHash, bitbucketModel);
-        }
+            FilePath = coverageFilePath,
+            FileFormat = format
+        }, commitHash);
 
-        private static string GetCoverage(FileCoverageModel model)
-        {
-            var strings = new[]
-            {
-                $"C:{string.Join(',', model.CoveredLines)}",
-                $"P:{string.Join(',', model.PartlyCoveredLines)}",
-                $"U:{string.Join(',', model.UncoveredLines)}"
-            };
+        /// <inheritdoc />
+        public List<List<FileCoverageInfo>> ReadAndUpload(IEnumerable<CoverageFile> files, string commitHash) => _coverageFileReader
+            .ReadFiles(files)
+            .ToList() // Read and validate all files before upload
+            .Select(f => _client.Upload(commitHash, f))
+            .ToList();
 
-            return string.Join(';', strings);
-        }
-
-        private static string GetPath(FileCoverageModel model)
-        {
-            return model.RelativeFilename?.Replace(@"\", "/");
-        }
+        private List<FileCoverageInfo> ReadAndUploadSingleFile(CoverageFile file, string commitHash) => _client.Upload(commitHash, _coverageFileReader.ReadFile(file));
     }
 }

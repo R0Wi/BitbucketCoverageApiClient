@@ -140,6 +140,8 @@ _TeamCity*
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+*.opencover.xml
+*.cobertura.xml
 
 # NCrunch
 _NCrunch_*
@@ -184,6 +186,7 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
+nupkg
 # NuGet Symbol Packages
 *.snupkg
 # The packages folder can be ignored because of Package Restore
@@ -348,3 +351,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Artifacts
+publish
